@@ -2,6 +2,7 @@ country,name
 abkh,Abkhazia
 afg,Afghanistan
 akr_a_dhe,Akrotiri and Dhekelia
+ala,Åland
 alb,Albania
 dza,Algeria
 asm,American Samoa
@@ -175,11 +176,11 @@ prk,North Korea
 yem_north,North Yemen (former)
 cyp_nor,Northern Cyprus
 mnp,Northern Mariana Islands
-north_mar,Northern Marianas
 nor,Norway
 omn,Oman
 pak,Pakistan
 plw,Palau
+pse,Palestine
 pan,Panama
 png,Papua New Guinea
 pry,Paraguay
@@ -249,8 +250,6 @@ tur,Turkey
 tkm,Turkmenistan
 tca,Turks and Caicos Islands
 tuv,Tuvalu
-usa_minor_out_isl,US Minor Outlying Islands
-ussr,USSR
 uga,Uganda
 ukr,Ukraine
 are,United Arab Emirates
@@ -258,19 +257,18 @@ gbr,United Kingdom
 korea_union,United Korea (former)
 usa,United States
 ury,Uruguay
+usa_minor_out_isl,US Minor Outlying Islands
+ussr,USSR
 uzb,Uzbekistan
 vut,Vanuatu
 ven,Venezuela
 vnm,Vietnam
-virg_isl,Virgin Islands
 vir,Virgin Islands (U.S.)
 wlf,Wallis et Futuna
 pse_west_bank,West Bank
-pse,Palestine
 deu_west,West Germany
 esh,Western Sahara
 yem,Yemen
 yug,Yugoslavia
 zmb,Zambia
 zwe,Zimbabwe
-ala,Åland

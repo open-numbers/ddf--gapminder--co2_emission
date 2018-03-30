@@ -2,7 +2,7 @@ info:
     id: ddf--gapminder--co2_emission
     base:
         - &d1 open-numbers/ddf--cdiac--co2
-        - &d2 open-numbers/ddf--gapminder--population
+        - &d2 open-numbers/ddf--gapminder--population_historic
         - &d3 open-numbers/ddf--gapminder--geo_entity_domain
         # - &d4 open-numbers/ddf--gapminder--systema_globalis
 

@@ -3,8 +3,7 @@ info:
     base:
         - &d1 open-numbers/ddf--cdiac--co2
         - &d2 open-numbers/ddf--gapminder--population_historic
-        - &d3 open-numbers/ddf--gapminder--geo_entity_domain
-        # - &d4 open-numbers/ddf--gapminder--systema_globalis
+        - &d3 open-numbers/ddf--open_numbers
 
 config:
     ddf_dir: /Users/semio/src/work/Gapminder/
@@ -23,12 +22,12 @@ ingredients:
       value: "*"
     - id: gapminder-datapoints
       dataset: *d2
-      key: country, year
+      key: geo, year
       value:
         - population_total
-    - id: gapminder-entities
+    - id: gapminder-country-synonym
       dataset: *d3
-      key: country
+      key: country, synonym
       value: "*"
     # - id: gapminder-concepts
     #   dataset: *d4
@@ -107,11 +106,9 @@ cooking:
               column: name
               target_column: geo
               dictionary:
-                  key: ['name', 'gapminder_list','alternative_1', 'alternative_2', 'alternative_3',
-                        'alternative_4_cdiac', 'pandg', 'god_id', 'alt_5', 'upper_case_name', 'arb1',
-                        'arb2', 'arb3', 'arb4', 'arb5', 'arb6']
+                  key: synonym
                   value: country
-                  base: gapminder-entities
+                  base: gapminder-country-synonym
               not_found: drop
               ignore_case: true
           result: geo-entities-aligned
@@ -146,10 +143,17 @@ cooking:
           result: total_emissions-datapoints
 
         # create a new ingredient with co2 and population in it.
+        - procedure: translate_header
+          ingredients:
+              - gapminder-datapoints
+          options:
+              dictionary:
+                  geo: country
+          result: gapminder-datapoints-translated
         - procedure: merge
           ingredients:
               - total_emissions-datapoints
-              - gapminder-datapoints
+              - gapminder-datapoints-translated
           result: co2-and-pop-datapoints
 
         - procedure: run_op

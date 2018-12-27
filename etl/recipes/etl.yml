@@ -22,12 +22,16 @@ ingredients:
       value: "*"
     - id: gapminder-datapoints
       dataset: *d2
-      key: geo, year
+      key: geo, time
       value:
         - population_total
     - id: gapminder-country-synonym
       dataset: *d3
-      key: country, synonym
+      key: synonym, geo
+      value: "*"
+    - id: gapminder-countries
+      dataset: *d3
+      key: country
       value: "*"
     # - id: gapminder-concepts
     #   dataset: *d4
@@ -107,7 +111,7 @@ cooking:
               target_column: geo
               dictionary:
                   key: synonym
-                  value: country
+                  value: geo
                   base: gapminder-country-synonym
               not_found: drop
               ignore_case: true
@@ -149,6 +153,7 @@ cooking:
           options:
               dictionary:
                   geo: country
+                  time: year
           result: gapminder-datapoints-translated
         - procedure: merge
           ingredients:
@@ -207,15 +212,15 @@ cooking:
     entities:
         - procedure: filter
           ingredients:
-              - gapminder-entities
+              - gapminder-countries
           options:
               item:
                 - country
                 - name
-          result: gapminder-entities-filtered
+          result: gapminder-countries-filtered
         - procedure: serve
           ingredients:
-              - gapminder-entities-filtered
+              - gapminder-countries-filtered
           options:
             no_keep_sets: true
 
@@ -223,7 +228,7 @@ cooking:
         - procedure: extract_concepts
           ingredients:
               - datapoints-to-serve
-              - gapminder-entities-filtered
+              - gapminder-countries-filtered
           result: concepts_extracted
         - procedure: merge
           ingredients:

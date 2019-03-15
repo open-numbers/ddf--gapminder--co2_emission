@@ -3,11 +3,11 @@
     "language": {
         "id": "en"
     },
-    "created": "2018-12-27T07:04:56.953314+00:00",
+    "created": "2019-03-15T12:27:39.966104+00:00",
     "resources": [
         {
-            "path": "ddf--concepts.csv",
             "name": "ddf--concepts",
+            "path": "ddf--concepts.csv",
             "schema": {
                 "fields": [
                     {
@@ -30,8 +30,8 @@
             }
         },
         {
-            "path": "ddf--datapoints--co2_emissions_tonnes_per_person--by--country--year.csv",
             "name": "ddf--datapoints--co2_emissions_tonnes_per_person--by--country--year",
+            "path": "ddf--datapoints--co2_emissions_tonnes_per_person--by--country--year.csv",
             "schema": {
                 "fields": [
                     {
@@ -51,8 +51,8 @@
             }
         },
         {
-            "path": "ddf--datapoints--cumulative_co2_emissions_tonnes--by--country--year.csv",
             "name": "ddf--datapoints--cumulative_co2_emissions_tonnes--by--country--year",
+            "path": "ddf--datapoints--cumulative_co2_emissions_tonnes--by--country--year.csv",
             "schema": {
                 "fields": [
                     {
@@ -72,8 +72,8 @@
             }
         },
         {
-            "path": "ddf--datapoints--yearly_co2_emissions_1000_tonnes--by--country--year.csv",
             "name": "ddf--datapoints--yearly_co2_emissions_1000_tonnes--by--country--year",
+            "path": "ddf--datapoints--yearly_co2_emissions_1000_tonnes--by--country--year.csv",
             "schema": {
                 "fields": [
                     {
@@ -93,8 +93,8 @@
             }
         },
         {
-            "path": "ddf--entities--country.csv",
             "name": "ddf--entities--country",
+            "path": "ddf--entities--country.csv",
             "schema": {
                 "fields": [
                     {

@@ -1,10 +1,10 @@
 info:
     id: ddf--gapminder--co2_emission
     base:
-        - &d1 ddf--cdiac--co2
-        - &d2 ddf--gapminder--population
-        - &d3 ddf--gapminder--geo_entity_domain
-        - &d4 ddf--gapminder--systema_globalis
+        - &d1 open-numbers/ddf--cdiac--co2
+        - &d2 open-numbers/ddf--gapminder--population_historic
+        - &d3 open-numbers/ddf--gapminder--geo_entity_domain
+        # - &d4 open-numbers/ddf--gapminder--systema_globalis
 
 config:
     ddf_dir: /Users/semio/src/work/Gapminder/
@@ -25,20 +25,58 @@ ingredients:
       dataset: *d2
       key: country, year
       value:
-        - population
+        - population_total
     - id: gapminder-entities
       dataset: *d3
       key: country
       value: "*"
+    # - id: gapminder-concepts
+    #   dataset: *d4
+    #   key: concept
+    #   value: "*"
+    #   filter:
+    #       concept:
+    #           - yearly_co2_emissions_1000_tonnes
+    #           - cumulative_co2_emissions_tonnes
+    #           - co2_emissions_tonnes_per_person
     - id: gapminder-concepts
-      dataset: *d4
       key: concept
-      value: "*"
-      filter:
-          concept:
-              - yearly_co2_emissions_1000_tonnes
-              - cumulative_co2_emissions_tonnes
-              - co2_emissions_tonnes_per_person
+      data:
+        -
+            concept: yearly_co2_emissions_1000_tonnes
+            concept_type: measure
+            name: Yearly CO2 emissions
+            indicator_url: https://github.com/open-numbers/ddf--gapminder--co2_emission
+            unit: 1000 metric tons
+        -
+            concept: cumulative_co2_emissions_tonnes
+            concept_type: measure
+            name: Cumulative CO2 emissions
+            indicator_url: https://github.com/open-numbers/ddf--gapminder--co2_emission
+            unit: metric tons
+        -
+            concept: co2_emissions_tonnes_per_person
+            concept_type: measure
+            name: CO2 per capita
+            indicator_url: https://github.com/open-numbers/ddf--gapminder--co2_emission
+            unit: metric tons per person
+        -
+            concept: indicator_url
+            name: Indicator URL
+            concept_type: string
+        -
+            concept: unit
+            concept_type: string
+            name: Unit
+        -
+            concept: country
+            concept_type: entity_domain
+            name: Country
+        -
+            concept: year
+            concept_type: time
+            name: Year
+
 
 cooking:
     datapoints:
@@ -59,7 +97,6 @@ cooking:
               dictionary: country_split.json
               splitted: keep
               target_column: nation
-              debug: true
           result: cdiac-datapoints-country-merged-splitted
 
         # adapt to Gapminder's geo
@@ -71,13 +108,12 @@ cooking:
               target_column: geo
               dictionary:
                   key: ['name', 'gapminder_list','alternative_1', 'alternative_2', 'alternative_3',
-                        'alternative_4_cdiac', 'pandg', 'god_id', 'alt_5', 'upper_case_name', 'arb1', 
-                        'arb2', 'arb3', 'arb4', 'arb5', 'arb6'] 
+                        'alternative_4_cdiac', 'pandg', 'god_id', 'alt_5', 'upper_case_name', 'arb1',
+                        'arb2', 'arb3', 'arb4', 'arb5', 'arb6']
                   value: country
                   base: gapminder-entities
               not_found: drop
               ignore_case: true
-              debug: true
           result: geo-entities-aligned
 
         - procedure: translate_column
@@ -91,7 +127,6 @@ cooking:
                   value: geo
                   base: geo-entities-aligned
               not_found: drop
-              debug: true
           result: cdiac-datapoints-aligned
 
         - procedure: translate_header
@@ -108,11 +143,10 @@ cooking:
           options:
               op:
                   yearly_co2_emissions_1000_tonnes: total_carbon_emissions * 3.667
-              debug: true
           result: total_emissions-datapoints
 
         # create a new ingredient with co2 and population in it.
-        - procedure: merge 
+        - procedure: merge
           ingredients:
               - total_emissions-datapoints
               - gapminder-datapoints
@@ -123,7 +157,7 @@ cooking:
               - co2-and-pop-datapoints
           options:
               op:
-                  co2_emissions_tonnes_per_person: yearly_co2_emissions_1000_tonnes / population * 1000
+                  co2_emissions_tonnes_per_person: yearly_co2_emissions_1000_tonnes / population_total * 1000
           result: co2_per_cap-datapoints
 
         - procedure: window
@@ -167,9 +201,17 @@ cooking:
               - datapoints-to-serve
 
     entities:
-        - procedure: serve
+        - procedure: filter
           ingredients:
               - gapminder-entities
+          options:
+              item:
+                - country
+                - name
+          result: gapminder-entities-filtered
+        - procedure: serve
+          ingredients:
+              - gapminder-entities-filtered
           options:
             no_keep_sets: true
 
@@ -177,7 +219,7 @@ cooking:
         - procedure: extract_concepts
           ingredients:
               - datapoints-to-serve
-              - gapminder-entities
+              - gapminder-entities-filtered
           result: concepts_extracted
         - procedure: merge
           ingredients:
@@ -189,4 +231,3 @@ cooking:
         - procedure: serve
           ingredients:
               - concepts-to-serve
-

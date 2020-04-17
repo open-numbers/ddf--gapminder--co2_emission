@@ -6,7 +6,6 @@ info:
         - &d3 open-numbers/ddf--open_numbers
 
 config:
-    ddf_dir: /Users/semio/src/work/Gapminder/
     recipe_dir: ./
     procedure_dir: ./procedures
     dictionary_dir: ./translation_dictionaries

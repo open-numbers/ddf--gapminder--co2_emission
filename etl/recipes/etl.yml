@@ -8,6 +8,7 @@ info:
 config:
     ddf_dir: /Users/semio/src/work/Gapminder/
     recipe_dir: ./
+    procedure_dir: ./procedures
     dictionary_dir: ./translation_dictionaries
 
 ingredients:
@@ -83,10 +84,16 @@ ingredients:
 
 cooking:
     datapoints:
+        # there are negative values in CDIAC data
+        # we will set thouse datapoints to zero
+        - procedure: negative_to_zero.proc
+          ingredients:
+              - cdiac-datapoints
+          result: cdiac-datapoints-no-negative
         # merge / split countries
         - procedure: merge_entity
           ingredients:
-              - cdiac-datapoints
+              - cdiac-datapoints-no-negative
           options:
               dictionary: country_merge.json
               merged: keep

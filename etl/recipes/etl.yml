@@ -3,12 +3,11 @@ info:
     base:
         - &d1 open-numbers/ddf--cdiac--co2
         - &d2 open-numbers/ddf--gapminder--population_historic
-        - &d3 open-numbers/ddf--gapminder--geo_entity_domain
-        # - &d4 open-numbers/ddf--gapminder--systema_globalis
+        - &d3 open-numbers/ddf--open_numbers
 
 config:
-    ddf_dir: /Users/semio/src/work/Gapminder/
     recipe_dir: ./
+    procedure_dir: ./procedures
     dictionary_dir: ./translation_dictionaries
 
 ingredients:
@@ -23,10 +22,14 @@ ingredients:
       value: "*"
     - id: gapminder-datapoints
       dataset: *d2
-      key: country, year
+      key: geo, time
       value:
         - population_total
-    - id: gapminder-entities
+    - id: gapminder-country-synonym
+      dataset: *d3
+      key: synonym, geo
+      value: "*"
+    - id: gapminder-countries
       dataset: *d3
       key: country
       value: "*"
@@ -80,10 +83,16 @@ ingredients:
 
 cooking:
     datapoints:
+        # there are negative values in CDIAC data
+        # we will set thouse datapoints to zero
+        - procedure: negative_to_zero.proc
+          ingredients:
+              - cdiac-datapoints
+          result: cdiac-datapoints-no-negative
         # merge / split countries
         - procedure: merge_entity
           ingredients:
-              - cdiac-datapoints
+              - cdiac-datapoints-no-negative
           options:
               dictionary: country_merge.json
               merged: keep
@@ -107,11 +116,9 @@ cooking:
               column: name
               target_column: geo
               dictionary:
-                  key: ['name', 'gapminder_list','alternative_1', 'alternative_2', 'alternative_3',
-                        'alternative_4_cdiac', 'pandg', 'god_id', 'alt_5', 'upper_case_name', 'arb1',
-                        'arb2', 'arb3', 'arb4', 'arb5', 'arb6']
-                  value: country
-                  base: gapminder-entities
+                  key: synonym
+                  value: geo
+                  base: gapminder-country-synonym
               not_found: drop
               ignore_case: true
           result: geo-entities-aligned
@@ -146,10 +153,18 @@ cooking:
           result: total_emissions-datapoints
 
         # create a new ingredient with co2 and population in it.
+        - procedure: translate_header
+          ingredients:
+              - gapminder-datapoints
+          options:
+              dictionary:
+                  geo: country
+                  time: year
+          result: gapminder-datapoints-translated
         - procedure: merge
           ingredients:
               - total_emissions-datapoints
-              - gapminder-datapoints
+              - gapminder-datapoints-translated
           result: co2-and-pop-datapoints
 
         - procedure: run_op
@@ -203,15 +218,15 @@ cooking:
     entities:
         - procedure: filter
           ingredients:
-              - gapminder-entities
+              - gapminder-countries
           options:
               item:
                 - country
                 - name
-          result: gapminder-entities-filtered
+          result: gapminder-countries-filtered
         - procedure: serve
           ingredients:
-              - gapminder-entities-filtered
+              - gapminder-countries-filtered
           options:
             no_keep_sets: true
 
@@ -219,7 +234,7 @@ cooking:
         - procedure: extract_concepts
           ingredients:
               - datapoints-to-serve
-              - gapminder-entities-filtered
+              - gapminder-countries-filtered
           result: concepts_extracted
         - procedure: merge
           ingredients:

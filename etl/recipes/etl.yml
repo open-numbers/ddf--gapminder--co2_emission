@@ -10,6 +10,9 @@ config:
     procedure_dir: ./procedures
     dictionary_dir: ./translation_dictionaries
 
+include:
+    - etl_gcp.yml
+
 ingredients:
     - id: cdiac-datapoints
       dataset: *d1
@@ -121,7 +124,7 @@ cooking:
                   base: gapminder-country-synonym
               not_found: drop
               ignore_case: true
-          result: geo-entities-aligned
+          result: cdiac-geo-entities-aligned
 
         - procedure: translate_column
           ingredients:
@@ -132,7 +135,7 @@ cooking:
               dictionary:
                   key: nation
                   value: geo
-                  base: geo-entities-aligned
+                  base: cdiac-geo-entities-aligned
               not_found: drop
           result: cdiac-datapoints-aligned
 
@@ -150,6 +153,15 @@ cooking:
           options:
               op:
                   yearly_co2_emissions_1000_tonnes: total_carbon_emissions * 3.667
+          result: cdiac-total_emissions-datapoints
+
+        # merge CDIAC and GCP
+        - procedure: merge
+          ingredients:
+              - cdiac-total_emissions-datapoints
+              - gcp-total_emissions-datapoints
+          options:
+              deep: true
           result: total_emissions-datapoints
 
         # create a new ingredient with co2 and population in it.
@@ -161,6 +173,7 @@ cooking:
                   geo: country
                   time: year
           result: gapminder-datapoints-translated
+
         - procedure: merge
           ingredients:
               - total_emissions-datapoints
@@ -209,6 +222,11 @@ cooking:
                   - yearly_co2_emissions_1000_tonnes
                   - cumulative_co2_emissions_tonnes
                   - co2_emissions_tonnes_per_person
+              # don't include bes because it's not country
+              row:
+                  country:
+                      $nin:
+                          - bes
           result: datapoints-to-serve
 
         - procedure: serve

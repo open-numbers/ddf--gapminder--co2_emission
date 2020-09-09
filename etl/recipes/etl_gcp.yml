@@ -15,6 +15,7 @@ ingredients:
       key: nation, year
       value:
           - territorial_emissions
+          - consumption_emissions
     - id: gcp-entities
       dataset: *d1
       key: nation
@@ -72,4 +73,5 @@ cooking:
           options:
               op:
                   yearly_co2_emissions_1000_tonnes: territorial_emissions * 3.667 * 1000
+                  consumption_co2_emissions_1000_tonnes: consumption_emissions * 3.667 * 1000
           result: gcp-total_emissions-datapoints

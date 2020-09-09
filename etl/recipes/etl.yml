@@ -67,6 +67,18 @@ ingredients:
             indicator_url: https://github.com/open-numbers/ddf--gapminder--co2_emission
             unit: metric tons per person
         -
+            concept: consumption_co2_emissions_1000_tonnes
+            concept_type: measure
+            name: Yearly consumption CO2 Emissions
+            indicator_url: https://github.com/open-numbers/ddf--gapminder--co2_emission
+            unit: 1000 metric tons
+        -
+            concept: consumption_emissions_tonnes_per_person
+            concept_type: measure
+            name: Consumption CO2 per capita
+            indicator_url: https://github.com/open-numbers/ddf--gapminder--co2_emission
+            unit: metric tons per person
+        -
             concept: indicator_url
             name: Indicator URL
             concept_type: string
@@ -186,6 +198,7 @@ cooking:
           options:
               op:
                   co2_emissions_tonnes_per_person: yearly_co2_emissions_1000_tonnes / population_total * 1000
+                  consumption_emissions_tonnes_per_person: consumption_co2_emissions_1000_tonnes / population_total * 1000
           result: co2_per_cap-datapoints
 
         - procedure: window
@@ -220,8 +233,10 @@ cooking:
           options:
               item:
                   - yearly_co2_emissions_1000_tonnes
+                  - consumption_co2_emissions_1000_tonnes
                   - cumulative_co2_emissions_tonnes
                   - co2_emissions_tonnes_per_person
+                  - consumption_emissions_tonnes_per_person
               # don't include bes because it's not country
               row:
                   country:

@@ -12,8 +12,8 @@
         "open-numbers/ddf--gapminder--population_historic",
         "open-numbers/ddf--open_numbers"
     ],
-    "created": "2020-09-05T13:19:26.907388+00:00",
     "id": "ddf--gapminder--co2_emission",
+    "created": "2020-09-09T14:58:04.933906+00:00",
     "resources": [
         {
             "name": "ddf--concepts",
@@ -52,6 +52,48 @@
                     },
                     {
                         "name": "co2_emissions_tonnes_per_person"
+                    }
+                ],
+                "primaryKey": [
+                    "country",
+                    "year"
+                ]
+            }
+        },
+        {
+            "name": "ddf--datapoints--consumption_co2_emissions_1000_tonnes--by--country--year",
+            "path": "ddf--datapoints--consumption_co2_emissions_1000_tonnes--by--country--year.csv",
+            "schema": {
+                "fields": [
+                    {
+                        "name": "country"
+                    },
+                    {
+                        "name": "year"
+                    },
+                    {
+                        "name": "consumption_co2_emissions_1000_tonnes"
+                    }
+                ],
+                "primaryKey": [
+                    "country",
+                    "year"
+                ]
+            }
+        },
+        {
+            "name": "ddf--datapoints--consumption_emissions_tonnes_per_person--by--country--year",
+            "path": "ddf--datapoints--consumption_emissions_tonnes_per_person--by--country--year.csv",
+            "schema": {
+                "fields": [
+                    {
+                        "name": "country"
+                    },
+                    {
+                        "name": "year"
+                    },
+                    {
+                        "name": "consumption_emissions_tonnes_per_person"
                     }
                 ],
                 "primaryKey": [
@@ -177,6 +219,26 @@
                 "value": "co2_emissions_tonnes_per_person",
                 "resources": [
                     "ddf--datapoints--co2_emissions_tonnes_per_person--by--country--year"
+                ]
+            },
+            {
+                "primaryKey": [
+                    "country",
+                    "year"
+                ],
+                "value": "consumption_co2_emissions_1000_tonnes",
+                "resources": [
+                    "ddf--datapoints--consumption_co2_emissions_1000_tonnes--by--country--year"
+                ]
+            },
+            {
+                "primaryKey": [
+                    "country",
+                    "year"
+                ],
+                "value": "consumption_emissions_tonnes_per_person",
+                "resources": [
+                    "ddf--datapoints--consumption_emissions_tonnes_per_person--by--country--year"
                 ]
             },
             {

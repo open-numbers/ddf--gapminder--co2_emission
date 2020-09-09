@@ -6,6 +6,8 @@ CO2 Emission dataset by Gapminder
 
 - yearly_co2_emissions_1000_tonnes: Yearly CO2 emissions (1000 tonnes)
 - co2_emissions_tonnes_per_person: CO2 per capita (tonnes per person)
+- consumption_co2_emissions_1000_tonnes: Yearly consumption CO2 emissions (1000 tonnes)
+- consumption_emissions_tonnes_per_person: Consumption CO2 per capita (tonnes per person)
 - cumulative_co2_emissions_tonnes: Cumulative CO2 emissions (tonnes)
 
 ## Definition of indicator
@@ -21,6 +23,18 @@ description: Per capita carbon dioxide emissions from the fossil fuel consumptio
 name: Yearly CO2 emissions
 
 description: Total carbon dioxide emissions from the fossil fuel consumption, cement production and gas flaring during the given year (1000 metric tons of CO2).
+
+**consumption_co2_emissions_1000_tonnes**
+
+name:  Yearly consumption CO2 emissions
+
+description: Total carbon dioxide emissions from the fossil fuel consumption, cement production and gas flaring, minus export, plus import during the given year (1000 metric tons of CO2).
+
+**consumption_emissions_tonnes_per_person**
+
+name: Consumption CO2 per capita
+
+description: Per capita carbon dioxide emissions from the fossil fuel consumption, cement production and gas flaring, minus export, plus import during the given year (metric tons of CO2 per person).
 
 **cumulative_co2_emissions_tonnes**
 
@@ -51,7 +65,8 @@ first version of dataset
 ## Data sources summary
 
 - population from Gapminder's population estimation: https://github.com/open-numbers/ddf--gapminder--population
-- co2 emission data from CDIAC: https://github.com/open-numbers/ddf--cdiac--co2
+- co2 emission data before 1959 from CDIAC: https://github.com/open-numbers/ddf--cdiac--co2
+- co2 emission data after 1959 and consumption emission data from Global Carbon Project: https://github.com/open-numbers/ddf--global_carbon_project--global_carbon_budget
 
 ## Specific information about indicators
 

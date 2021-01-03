@@ -12,8 +12,8 @@
         "open-numbers/ddf--gapminder--population_historic",
         "open-numbers/ddf--open_numbers"
     ],
+    "created": "2021-01-03T12:38:43.344242+00:00",
     "id": "ddf--gapminder--co2_emission",
-    "created": "2020-09-09T14:58:04.933906+00:00",
     "resources": [
         {
             "name": "ddf--concepts",

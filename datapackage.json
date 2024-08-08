@@ -12,8 +12,8 @@
         "open-numbers/ddf--gapminder--population_historic",
         "open-numbers/ddf--open_numbers"
     ],
+    "created": "2024-08-08T08:04:08.313654+00:00",
     "id": "ddf--gapminder--co2_emission",
-    "created": "2020-09-09T14:58:04.933906+00:00",
     "resources": [
         {
             "name": "ddf--concepts",
@@ -36,7 +36,9 @@
                         "name": "unit"
                     }
                 ],
-                "primaryKey": "concept"
+                "primaryKey": [
+                    "concept"
+                ]
             }
         },
         {
@@ -156,7 +158,9 @@
                         "name": "name"
                     }
                 ],
-                "primaryKey": "country"
+                "primaryKey": [
+                    "country"
+                ]
             }
         }
     ],
